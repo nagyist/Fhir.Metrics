@@ -82,7 +82,7 @@ namespace Fhir.Metrics.Tests
             a = system.Quantity("4.0km");
             b = system.Quantity("2.0km");
             result = a * b;
-            expected = system.Quantity("8e6m3");
+            expected = system.Quantity("8e6m2");
             same = Quantity.SameDimension(a, b);
             Assert.True(same);
             Assert.True(result.Approximates(expected));

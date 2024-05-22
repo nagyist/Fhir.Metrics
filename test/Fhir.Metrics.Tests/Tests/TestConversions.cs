@@ -101,9 +101,7 @@ namespace Fhir.Metrics.Tests
             result = system.Canonical(quantity);
             expected = system.Quantity("1/s").UnPrefixed();
             Assert.True(result.Approximates(expected));
-
-
-
+            
             /*
             120 mm[Hg]		15998640000 g.m-1.s-2
             176 g/L			0.176 g.m-3
