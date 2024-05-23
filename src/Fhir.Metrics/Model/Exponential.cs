@@ -18,7 +18,7 @@ namespace Fhir.Metrics
         public int Exponent;
         public decimal Error;
 
-        private static readonly string REGEX = @"^(\d+(\.\d+)?)(e([+-]?\d+))?$";
+        private static readonly string REGEX = @"^(-?\d+(\.\d+)?)(e([+-]?\d+))?$";
         private static readonly IFormatProvider FORMAT = new CultureInfo("en-US");
 
         public Exponential(decimal value, int exponent, decimal error)
