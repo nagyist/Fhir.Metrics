@@ -16,7 +16,7 @@
 		<PackageReleaseNotes>See https://github.com/FirelyTeam/Fhir.Metrics/releases</PackageReleaseNotes>
 		<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 		<PackageReadmeFile>\README.md</PackageReadmeFile>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>netstandard2.0; net8.0</TargetFrameworks>
 		<RepositoryUrl>https://github.com/FirelyTeam/Fhir.Metrics</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageProjectUrl>https://github.com/FirelyTeam/Fhir.Metrics</PackageProjectUrl>
