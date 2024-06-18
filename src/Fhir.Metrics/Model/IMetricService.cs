@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace Fhir.Metrics;
 
@@ -71,4 +72,147 @@ public interface IMetricService
     /// <param name="result">the result of the addition in canonical form, or null if the operation failed</param>
     /// <returns>true if the operation succeeded, false otherwise</returns>
     public bool TryAdd((string value, string unit, string codesystem) quantity1, (string value, string unit, string codesystem) quantity2, [NotNullWhen(true)] out (string value, string unit, string codesystem)? result);
+}
+
+public static class MetricServiceExtensions
+{
+    // same methods, but with decimal overload
+    
+    public static bool TryCanonicalize(this IMetricService service, (decimal value, string unit, string codesystem) quantity, [NotNullWhen(true)] out (decimal value, string unit, string codesystem)? canonical)
+    {
+        if(!service.TryCanonicalize((quantity.value.ToString(CultureInfo.InvariantCulture), quantity.unit, quantity.codesystem), out var canonicalTuple))
+        {
+            canonical = null;
+            return false;
+        }
+
+        try
+        {
+            canonical = (decimal.Parse(canonicalTuple.Value.value, CultureInfo.InvariantCulture), canonicalTuple.Value.unit, canonicalTuple.Value.codesystem);
+        }
+        catch
+        {
+            canonical = null;
+            return false;
+        }
+
+        return true;
+    }
+    
+    public static bool TryDivide(this IMetricService service, (decimal value, string unit, string codesystem) quantity1, (decimal value, string unit, string codesystem) quantity2, [NotNullWhen(true)] out (decimal value, string unit, string codesystem)? result)
+    {
+        if(!service.TryDivide((quantity1.value.ToString(CultureInfo.InvariantCulture), quantity1.unit, quantity1.codesystem), (quantity2.value.ToString(CultureInfo.InvariantCulture), quantity2.unit, quantity2.codesystem), out var resultTuple))
+        {
+            result = null;
+            return false;
+        }
+
+        try
+        {
+            result = (decimal.Parse(resultTuple.Value.value, CultureInfo.InvariantCulture), resultTuple.Value.unit, resultTuple.Value.codesystem);
+        }
+        catch
+        {
+            result = null;
+            return false;
+        }
+
+        return true;
+    }
+    
+    public static bool TryMultiply(this IMetricService service, (decimal value, string unit, string codesystem) quantity1, (decimal value, string unit, string codesystem) quantity2, [NotNullWhen(true)] out (decimal value, string unit, string codesystem)? result)
+    {
+        if(!service.TryMultiply((quantity1.value.ToString(CultureInfo.InvariantCulture), quantity1.unit, quantity1.codesystem), (quantity2.value.ToString(CultureInfo.InvariantCulture), quantity2.unit, quantity2.codesystem), out var resultTuple))
+        {
+            result = null;
+            return false;
+        }
+
+        try
+        {
+            result = (decimal.Parse(resultTuple.Value.value, CultureInfo.InvariantCulture), resultTuple.Value.unit, resultTuple.Value.codesystem);
+        }
+        catch
+        {
+            result = null;
+            return false;
+        }
+
+        return true;
+    }
+    
+    public static bool TryCompare(this IMetricService service, (decimal value, string unit, string codesystem) quantity1, (decimal value, string unit, string codesystem) quantity2, [NotNullWhen(true)] out int? result)
+    {
+        if(!service.TryCompare((quantity1.value.ToString(CultureInfo.InvariantCulture), quantity1.unit, quantity1.codesystem), (quantity2.value.ToString(CultureInfo.InvariantCulture), quantity2.unit, quantity2.codesystem), out var resultInt))
+        {
+            result = null;
+            return false;
+        }
+
+        result = resultInt;
+        return true;
+    }
+    
+    public static bool TryConvertTo(this IMetricService service, (decimal value, string unit, string codesystem) quantity, string targetUnit, [NotNullWhen(true)] out (decimal value, string unit, string codesystem)? converted)
+    {
+        if(!service.TryConvertTo((quantity.value.ToString(CultureInfo.InvariantCulture), quantity.unit, quantity.codesystem), targetUnit, out var convertedTuple))
+        {
+            converted = null;
+            return false;
+        }
+
+        try
+        {
+            converted = (decimal.Parse(convertedTuple.Value.value, CultureInfo.InvariantCulture), convertedTuple.Value.unit, convertedTuple.Value.codesystem);
+        }
+        catch
+        {
+            converted = null;
+            return false;
+        }
+
+        return true;
+    }
+    
+    public static bool TrySubtract(this IMetricService service, (decimal value, string unit, string codesystem) quantity1, (decimal value, string unit, string codesystem) quantity2, [NotNullWhen(true)] out (decimal value, string unit, string codesystem)? result)
+    {
+        if(!service.TrySubtract((quantity1.value.ToString(CultureInfo.InvariantCulture), quantity1.unit, quantity1.codesystem), (quantity2.value.ToString(CultureInfo.InvariantCulture), quantity2.unit, quantity2.codesystem), out var resultTuple))
+        {
+            result = null;
+            return false;
+        }
+
+        try
+        {
+            result = (decimal.Parse(resultTuple.Value.value, CultureInfo.InvariantCulture), resultTuple.Value.unit, resultTuple.Value.codesystem);
+        }
+        catch
+        {
+            result = null;
+            return false;
+        }
+
+        return true;
+    }
+    
+    public static bool TryAdd(this IMetricService service, (decimal value, string unit, string codesystem) quantity1, (decimal value, string unit, string codesystem) quantity2, [NotNullWhen(true)] out (decimal value, string unit, string codesystem)? result)
+    {
+        if(!service.TryAdd((quantity1.value.ToString(CultureInfo.InvariantCulture), quantity1.unit, quantity1.codesystem), (quantity2.value.ToString(CultureInfo.InvariantCulture), quantity2.unit, quantity2.codesystem), out var resultTuple))
+        {
+            result = null;
+            return false;
+        }
+
+        try
+        {
+            result = (decimal.Parse(resultTuple.Value.value, CultureInfo.InvariantCulture), resultTuple.Value.unit, resultTuple.Value.codesystem);
+        }
+        catch
+        {
+            result = null;
+            return false;
+        }
+
+        return true;
+    }
 }
