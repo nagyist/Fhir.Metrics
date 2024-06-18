@@ -1,3 +1,4 @@
+#nullable enable
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
@@ -14,7 +15,7 @@ public interface IMetricService
     /// <param name="quantity">the quantity to convert</param>
     /// <param name="canonical">the canonicalized quantity, or null if the operation failed</param>
     /// <returns>true if the canonicalization succeeded, false otherwise</returns>
-    public bool TryCanonicalize((string value, string unit, string codesystem) quantity, [NotNullWhen(true)] out (string value, string unit, string codesystem)? canonical);
+    public bool TryCanonicalize((string value, string unit, string? codesystem) quantity, [NotNullWhen(true)] out (string value, string unit, string? codesystem)? canonical);
     
     /// <summary>
     /// Tries to divide quantity 1 by quantity 2. This will also perform a division of the units. 
@@ -23,7 +24,7 @@ public interface IMetricService
     /// <param name="quantity2">the quantity to divide the first quantity by</param>
     /// <param name="result">the canonical form of the result of the division, or null if the operation failed</param>
     /// <returns>true if the operation succeeded, false otherwise</returns>
-    public bool TryDivide((string value, string unit, string codesystem) quantity1, (string value, string unit, string codesystem) quantity2, [NotNullWhen(true)] out (string value, string unit, string codesystem)? result);
+    public bool TryDivide((string value, string unit, string? codesystem) quantity1, (string value, string unit, string? codesystem) quantity2, [NotNullWhen(true)] out (string value, string unit, string? codesystem)? result);
     
     /// <summary>
     /// Tries to multiply quantity 1 with quantity 2. This will also perform a multiplication of the units
@@ -32,7 +33,7 @@ public interface IMetricService
     /// <param name="quantity2">the quantity to multiply the first quantity by</param>
     /// <param name="result">the result of the multiplication, or null if the operation failed</param>
     /// <returns>true if the operation succeeded, false otherwise</returns>
-    public bool TryMultiply((string value, string unit, string codesystem) quantity1, (string value, string unit, string codesystem) quantity2, [NotNullWhen(true)] out (string value, string unit, string codesystem)? result);
+    public bool TryMultiply((string value, string unit, string? codesystem) quantity1, (string value, string unit, string? codesystem) quantity2, [NotNullWhen(true)] out (string value, string unit, string? codesystem)? result);
     
     /// <summary>
     /// Tries to compare quantity 1 with quantity 2. Will fail if the units have different dimensions.
@@ -41,7 +42,7 @@ public interface IMetricService
     /// <param name="quantity2"></param>
     /// <param name="result">&lt;0 if quantity1 &lt; quantity2, 0 if quantity1 == quantity2 (within error margin), &gt;0 if quantity1 &gt; quantity2, or null if the operands could not be compared</param>
     /// <returns>true if the operation succeeded, false otherwise</returns>
-    public bool TryCompare((string value, string unit, string codesystem) quantity1, (string value, string unit, string codesystem) quantity2, [NotNullWhen(true)] out int? result);
+    public bool TryCompare((string value, string unit, string? codesystem) quantity1, (string value, string unit, string? codesystem) quantity2, [NotNullWhen(true)] out int? result);
     
     
     // from here on - not yet implemented in the old one
@@ -53,7 +54,7 @@ public interface IMetricService
     /// <param name="targetUnit">the target unit</param>
     /// <param name="converted">the result if the conversion, or null if the operation failed</param>
     /// <returns>true if the conversion succeeded, false otherwise</returns>
-    public bool TryConvertTo((string value, string unit, string codesystem) quantity, string targetUnit, [NotNullWhen(true)] out (string value, string unit, string codesystem)? converted);
+    public bool TryConvertTo((string value, string unit, string? codesystem) quantity, string targetUnit, [NotNullWhen(true)] out (string value, string unit, string? codesystem)? converted);
     
     /// <summary>
     /// Tries to subtract quantity 2 from quantity 1. Will fail if the units have different dimensions.
@@ -62,7 +63,7 @@ public interface IMetricService
     /// <param name="quantity2">the quantity to subtract from the first operand</param>
     /// <param name="result">the result of the subtraction in canonical form, or null if the operation failed</param>
     /// <returns>true if the operation succeeded, false otherwise</returns>
-    public bool TrySubtract((string value, string unit, string codesystem) quantity1, (string value, string unit, string codesystem) quantity2, [NotNullWhen(true)] out (string value, string unit, string codesystem)? result);
+    public bool TrySubtract((string value, string unit, string? codesystem) quantity1, (string value, string unit, string? codesystem) quantity2, [NotNullWhen(true)] out (string value, string unit, string? codesystem)? result);
     
     /// <summary>
     /// Tries to add quantity 2 to quantity 1. Will fail if the units have different dimensions.
@@ -71,14 +72,14 @@ public interface IMetricService
     /// <param name="quantity2">the quantity to add to the first operand</param>
     /// <param name="result">the result of the addition in canonical form, or null if the operation failed</param>
     /// <returns>true if the operation succeeded, false otherwise</returns>
-    public bool TryAdd((string value, string unit, string codesystem) quantity1, (string value, string unit, string codesystem) quantity2, [NotNullWhen(true)] out (string value, string unit, string codesystem)? result);
+    public bool TryAdd((string value, string unit, string? codesystem) quantity1, (string value, string unit, string? codesystem) quantity2, [NotNullWhen(true)] out (string value, string unit, string? codesystem)? result);
 }
 
 public static class MetricServiceExtensions
 {
     // same methods, but with decimal overload
     
-    public static bool TryCanonicalize(this IMetricService service, (decimal value, string unit, string codesystem) quantity, [NotNullWhen(true)] out (decimal value, string unit, string codesystem)? canonical)
+    public static bool TryCanonicalize(this IMetricService service, (decimal value, string unit, string? codesystem) quantity, [NotNullWhen(true)] out (decimal value, string unit, string? codesystem)? canonical)
     {
         if(!service.TryCanonicalize((quantity.value.ToString(CultureInfo.InvariantCulture), quantity.unit, quantity.codesystem), out var canonicalTuple))
         {
@@ -99,7 +100,7 @@ public static class MetricServiceExtensions
         return true;
     }
     
-    public static bool TryDivide(this IMetricService service, (decimal value, string unit, string codesystem) quantity1, (decimal value, string unit, string codesystem) quantity2, [NotNullWhen(true)] out (decimal value, string unit, string codesystem)? result)
+    public static bool TryDivide(this IMetricService service, (decimal value, string unit, string? codesystem) quantity1, (decimal value, string unit, string? codesystem) quantity2, [NotNullWhen(true)] out (decimal value, string unit, string? codesystem)? result)
     {
         if(!service.TryDivide((quantity1.value.ToString(CultureInfo.InvariantCulture), quantity1.unit, quantity1.codesystem), (quantity2.value.ToString(CultureInfo.InvariantCulture), quantity2.unit, quantity2.codesystem), out var resultTuple))
         {
@@ -120,7 +121,7 @@ public static class MetricServiceExtensions
         return true;
     }
     
-    public static bool TryMultiply(this IMetricService service, (decimal value, string unit, string codesystem) quantity1, (decimal value, string unit, string codesystem) quantity2, [NotNullWhen(true)] out (decimal value, string unit, string codesystem)? result)
+    public static bool TryMultiply(this IMetricService service, (decimal value, string unit, string? codesystem) quantity1, (decimal value, string unit, string? codesystem) quantity2, [NotNullWhen(true)] out (decimal value, string unit, string? codesystem)? result)
     {
         if(!service.TryMultiply((quantity1.value.ToString(CultureInfo.InvariantCulture), quantity1.unit, quantity1.codesystem), (quantity2.value.ToString(CultureInfo.InvariantCulture), quantity2.unit, quantity2.codesystem), out var resultTuple))
         {
@@ -141,7 +142,7 @@ public static class MetricServiceExtensions
         return true;
     }
     
-    public static bool TryCompare(this IMetricService service, (decimal value, string unit, string codesystem) quantity1, (decimal value, string unit, string codesystem) quantity2, [NotNullWhen(true)] out int? result)
+    public static bool TryCompare(this IMetricService service, (decimal value, string unit, string? codesystem) quantity1, (decimal value, string unit, string? codesystem) quantity2, [NotNullWhen(true)] out int? result)
     {
         if(!service.TryCompare((quantity1.value.ToString(CultureInfo.InvariantCulture), quantity1.unit, quantity1.codesystem), (quantity2.value.ToString(CultureInfo.InvariantCulture), quantity2.unit, quantity2.codesystem), out var resultInt))
         {
@@ -153,7 +154,7 @@ public static class MetricServiceExtensions
         return true;
     }
     
-    public static bool TryConvertTo(this IMetricService service, (decimal value, string unit, string codesystem) quantity, string targetUnit, [NotNullWhen(true)] out (decimal value, string unit, string codesystem)? converted)
+    public static bool TryConvertTo(this IMetricService service, (decimal value, string unit, string? codesystem) quantity, string targetUnit, [NotNullWhen(true)] out (decimal value, string unit, string? codesystem)? converted)
     {
         if(!service.TryConvertTo((quantity.value.ToString(CultureInfo.InvariantCulture), quantity.unit, quantity.codesystem), targetUnit, out var convertedTuple))
         {
@@ -174,7 +175,7 @@ public static class MetricServiceExtensions
         return true;
     }
     
-    public static bool TrySubtract(this IMetricService service, (decimal value, string unit, string codesystem) quantity1, (decimal value, string unit, string codesystem) quantity2, [NotNullWhen(true)] out (decimal value, string unit, string codesystem)? result)
+    public static bool TrySubtract(this IMetricService service, (decimal value, string unit, string? codesystem) quantity1, (decimal value, string unit, string? codesystem) quantity2, [NotNullWhen(true)] out (decimal value, string unit, string? codesystem)? result)
     {
         if(!service.TrySubtract((quantity1.value.ToString(CultureInfo.InvariantCulture), quantity1.unit, quantity1.codesystem), (quantity2.value.ToString(CultureInfo.InvariantCulture), quantity2.unit, quantity2.codesystem), out var resultTuple))
         {
@@ -195,7 +196,7 @@ public static class MetricServiceExtensions
         return true;
     }
     
-    public static bool TryAdd(this IMetricService service, (decimal value, string unit, string codesystem) quantity1, (decimal value, string unit, string codesystem) quantity2, [NotNullWhen(true)] out (decimal value, string unit, string codesystem)? result)
+    public static bool TryAdd(this IMetricService service, (decimal value, string unit, string? codesystem) quantity1, (decimal value, string unit, string? codesystem) quantity2, [NotNullWhen(true)] out (decimal value, string unit, string? codesystem)? result)
     {
         if(!service.TryAdd((quantity1.value.ToString(CultureInfo.InvariantCulture), quantity1.unit, quantity1.codesystem), (quantity2.value.ToString(CultureInfo.InvariantCulture), quantity2.unit, quantity2.codesystem), out var resultTuple))
         {
