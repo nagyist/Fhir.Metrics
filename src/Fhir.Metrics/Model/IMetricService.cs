@@ -77,8 +77,7 @@ public interface IMetricService
 
 public static class MetricServiceExtensions
 {
-    // same methods, but with decimal overload
-    
+    /// <inheritdoc cref="IMetricService.TryCanonicalize"/>
     public static bool TryCanonicalize(this IMetricService service, (decimal value, string unit, string? codesystem) quantity, [NotNullWhen(true)] out (decimal value, string unit, string? codesystem)? canonical)
     {
         if(!service.TryCanonicalize((quantity.value.ToString(CultureInfo.InvariantCulture), quantity.unit, quantity.codesystem), out var canonicalTuple))
@@ -100,6 +99,7 @@ public static class MetricServiceExtensions
         return true;
     }
     
+    /// <inheritdoc cref="IMetricService.TryDivide"/>
     public static bool TryDivide(this IMetricService service, (decimal value, string unit, string? codesystem) quantity1, (decimal value, string unit, string? codesystem) quantity2, [NotNullWhen(true)] out (decimal value, string unit, string? codesystem)? result)
     {
         if(!service.TryDivide((quantity1.value.ToString(CultureInfo.InvariantCulture), quantity1.unit, quantity1.codesystem), (quantity2.value.ToString(CultureInfo.InvariantCulture), quantity2.unit, quantity2.codesystem), out var resultTuple))
@@ -121,6 +121,7 @@ public static class MetricServiceExtensions
         return true;
     }
     
+    /// <inheritdoc cref="IMetricService.TryMultiply"/>
     public static bool TryMultiply(this IMetricService service, (decimal value, string unit, string? codesystem) quantity1, (decimal value, string unit, string? codesystem) quantity2, [NotNullWhen(true)] out (decimal value, string unit, string? codesystem)? result)
     {
         if(!service.TryMultiply((quantity1.value.ToString(CultureInfo.InvariantCulture), quantity1.unit, quantity1.codesystem), (quantity2.value.ToString(CultureInfo.InvariantCulture), quantity2.unit, quantity2.codesystem), out var resultTuple))
@@ -142,6 +143,7 @@ public static class MetricServiceExtensions
         return true;
     }
     
+    /// <inheritdoc cref="IMetricService.TryCompare"/>
     public static bool TryCompare(this IMetricService service, (decimal value, string unit, string? codesystem) quantity1, (decimal value, string unit, string? codesystem) quantity2, [NotNullWhen(true)] out int? result)
     {
         if(!service.TryCompare((quantity1.value.ToString(CultureInfo.InvariantCulture), quantity1.unit, quantity1.codesystem), (quantity2.value.ToString(CultureInfo.InvariantCulture), quantity2.unit, quantity2.codesystem), out var resultInt))
@@ -154,6 +156,7 @@ public static class MetricServiceExtensions
         return true;
     }
     
+    /// <inheritdoc cref="IMetricService.TryConvertTo"/>
     public static bool TryConvertTo(this IMetricService service, (decimal value, string unit, string? codesystem) quantity, string targetUnit, [NotNullWhen(true)] out (decimal value, string unit, string? codesystem)? converted)
     {
         if(!service.TryConvertTo((quantity.value.ToString(CultureInfo.InvariantCulture), quantity.unit, quantity.codesystem), targetUnit, out var convertedTuple))
@@ -175,6 +178,7 @@ public static class MetricServiceExtensions
         return true;
     }
     
+    /// <inheritdoc cref="IMetricService.TrySubtract"/>
     public static bool TrySubtract(this IMetricService service, (decimal value, string unit, string? codesystem) quantity1, (decimal value, string unit, string? codesystem) quantity2, [NotNullWhen(true)] out (decimal value, string unit, string? codesystem)? result)
     {
         if(!service.TrySubtract((quantity1.value.ToString(CultureInfo.InvariantCulture), quantity1.unit, quantity1.codesystem), (quantity2.value.ToString(CultureInfo.InvariantCulture), quantity2.unit, quantity2.codesystem), out var resultTuple))
@@ -196,6 +200,7 @@ public static class MetricServiceExtensions
         return true;
     }
     
+    /// <inheritdoc cref="IMetricService.TryAdd"/>
     public static bool TryAdd(this IMetricService service, (decimal value, string unit, string? codesystem) quantity1, (decimal value, string unit, string? codesystem) quantity2, [NotNullWhen(true)] out (decimal value, string unit, string? codesystem)? result)
     {
         if(!service.TryAdd((quantity1.value.ToString(CultureInfo.InvariantCulture), quantity1.unit, quantity1.codesystem), (quantity2.value.ToString(CultureInfo.InvariantCulture), quantity2.unit, quantity2.codesystem), out var resultTuple))
