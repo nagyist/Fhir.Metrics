@@ -9,7 +9,8 @@ public class FhirMetricService : IMetricService
     private static readonly Lazy<SystemOfUnits> _system = new(() => UCUM.Load());
     
     public static readonly Lazy<FhirMetricService> Instance = new(() => new FhirMetricService());
-
+    
+    /// <inheritdoc />
     public bool TryCanonicalize((string value, string unit, string codesystem) quantity, out (string value, string unit, string codesystem)? canonical)
     {
         try
@@ -26,6 +27,7 @@ public class FhirMetricService : IMetricService
         }
     }
 
+    /// <inheritdoc />
     public bool TryDivide((string value, string unit, string codesystem) quantity1, (string value, string unit, string codesystem) quantity2,
         out (string value, string unit, string codesystem)? result)
     {
@@ -43,6 +45,8 @@ public class FhirMetricService : IMetricService
             return false;
         }
     }
+    
+    /// <inheritdoc />
 
     public bool TryMultiply((string value, string unit, string codesystem) quantity1, (string value, string unit, string codesystem) quantity2,
         out (string value, string unit, string codesystem)? result)
@@ -62,6 +66,7 @@ public class FhirMetricService : IMetricService
         }
     }
 
+    /// <inheritdoc />
     public bool TryCompare((string value, string unit, string codesystem) quantity1, (string value, string unit, string codesystem) quantity2, out int? result)
     {
         try
@@ -78,17 +83,20 @@ public class FhirMetricService : IMetricService
         }
     }
 
+    /// <inheritdoc />
     public bool TryConvertTo((string value, string unit, string codesystem) quantity, string targetUnit, out (string value, string unit, string codesystem)? converted)
     {
         throw new NotImplementedException();
     }
 
+    /// <inheritdoc />
     public bool TrySubtract((string value, string unit, string codesystem) quantity1, (string value, string unit, string codesystem) quantity2,
         out (string value, string unit, string codesystem)? result)
     {
         throw new NotImplementedException();
     }
 
+    /// <inheritdoc />
     public bool TryAdd((string value, string unit, string codesystem) quantity1, (string value, string unit, string codesystem) quantity2,
         out (string value, string unit, string codesystem)? result)
     {
